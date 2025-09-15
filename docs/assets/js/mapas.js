@@ -1,5 +1,7 @@
+let map;
+
 export function pintarMapa(latitud, longitud, zoom) {
-    var map = L.map('map').setView([latitud, longitud], zoom);
+    map = L.map('map').setView([latitud, longitud], zoom);
 
     const valoresMap = {
         maxZoom: 19,
@@ -7,4 +9,12 @@ export function pintarMapa(latitud, longitud, zoom) {
     }
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', valoresMap).addTo(map);
+}
+
+export function actualizarMapaConGeojson(geojson) {
+    if (geojson.type != "FeatureCollection") {
+        L.geoJSON(geojson).addTo(map);
+    }
+    let features = geojson.features;
+    L.geoJSON(features).addTo(map);
 }
