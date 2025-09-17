@@ -16,5 +16,15 @@ export function actualizarMapaConGeojson(geojson) {
         L.geoJSON(geojson).addTo(map);
     }
     let features = geojson.features;
-    L.geoJSON(features).addTo(map);
+    L.geoJSON(features, {
+        onEachFeature: mostrarAtributosGeoJSON
+    }).addTo(map);
+}
+
+function mostrarAtributosGeoJSON(feature, layer) {
+    if (feature.properties) {
+        Object.keys(feature.properties).forEach(key => {
+            layer.bindPopup(key + ": " + feature.properties[key]);
+        });
+    }
 }
